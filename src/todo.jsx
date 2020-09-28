@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback, useReducer } from "react";
 
 const initialState = { todos: [] };
 
@@ -23,6 +23,43 @@ const reducer = (state, action) => {
   }
 };
 
-const Todo = () => <div>Hello</div>;
+const Todo = () => {
+  const [input, updateInput] = useState("");
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const onChangeInput = useCallback(
+    (event) => {
+      updateInput(event.target.value);
+    },
+    [updateInput]
+  );
+
+  const onCheckListItem = useCallback(
+    (event) => {
+      dispatch({ type: "complete_task", payload: event.target.name });
+    },
+    [dispatch]
+  );
+
+  const addTodo = useCallback(() => {
+    dispatch({ type: "add_todo", payload: input });
+    updateInput("");
+  }, [input, dispatch]);
+
+  return (
+    <>
+      <input type="text" onChange={onChangeInput} value={input} />
+      <button onClick={addTodo}>追加</button>
+      <ul>
+        {state.todos.map((todo, index) => (
+          <li key={todo.id}>
+            <input type="checkbox" onChange={onCheckListItem} name={index} />
+            {todo.task}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+};
 
 export default Todo;
