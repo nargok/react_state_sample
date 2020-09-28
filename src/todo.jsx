@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useReducer } from "react";
+import React, { useState, useCallback, useReducer, useContext } from "react";
+import { UserContext } from "./App";
 
 const initialState = { todos: [] };
 
@@ -26,6 +27,7 @@ const reducer = (state, action) => {
 const Todo = () => {
   const [input, updateInput] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { handleUpdateCompletedTask } = useContext(UserContext);
 
   const onChangeInput = useCallback(
     (event) => {
@@ -37,8 +39,9 @@ const Todo = () => {
   const onCheckListItem = useCallback(
     (event) => {
       dispatch({ type: "complete_task", payload: event.target.name });
+      handleUpdateCompletedTask();
     },
-    [dispatch]
+    [handleUpdateCompletedTask]
   );
 
   const addTodo = useCallback(() => {
