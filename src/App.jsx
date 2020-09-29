@@ -1,6 +1,11 @@
 import React, { useState, useCallback, createContext } from "react";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { todoReducer } from "./reducer";
 import CompletedTaskview from "./completed-task-view";
 import Todo from "./todo";
+
+const store = createStore(todoReducer);
 
 export const UserContext = createContext({
   username: "guest",
@@ -27,16 +32,18 @@ const App = () => {
   );
 
   return (
-    <UserContext.Provider
-      value={{ username, completedTask, handleUpdateCompletedTask }}
-    >
-      <div>
-        <span>ユーザーネーム:</span>
-        <input type="text" onChange={handleUpdateUsername} />
-        <CompletedTaskview />
-        <Todo />
-      </div>
-    </UserContext.Provider>
+    <Provider store={store}>
+      <UserContext.Provider
+        value={{ username, completedTask, handleUpdateCompletedTask }}
+      >
+        <div>
+          <span>ユーザーネーム:</span>
+          <input type="text" onChange={handleUpdateUsername} />
+          <CompletedTaskview />
+          <Todo />
+        </div>
+      </UserContext.Provider>
+    </Provider>
   );
 };
 
