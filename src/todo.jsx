@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Todo = () => {
   const [input, updateInput] = useState("");
   const dispatch = useDispatch();
-  const { todos } = useSelector((state) => state);
+  const { todos } = useSelector((state) => state.todo);
 
   console.log(todos);
 

@@ -1,11 +1,11 @@
 import React, { useState, useCallback, createContext } from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { todoReducer } from "./reducer";
+import rootReducer from "./reducers/index";
 import CompletedTaskview from "./completed-task-view";
 import Todo from "./todo";
 
-const store = createStore(todoReducer);
+const store = createStore(rootReducer);
 
 export const UserContext = createContext({
   username: "guest",
